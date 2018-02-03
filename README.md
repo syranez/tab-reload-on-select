@@ -1,3 +1,3 @@
 # Tab reload on select
 
-Reloads a selected tab to get fresh content.
+This Firefox-Add-on reloads a selected tab to get fresh content.
