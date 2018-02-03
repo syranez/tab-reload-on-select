@@ -8,4 +8,4 @@ The add-on never reloads about-Pages.
 
 ## Ressources
 
-API: [https://developer.chrome.com/extensions/tab]
+API: https://developer.chrome.com/extensions/tab
