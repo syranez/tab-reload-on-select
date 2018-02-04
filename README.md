@@ -10,4 +10,4 @@ The add-on reloads only pages which are unreloaded for an hour.
 
 ## Ressources
 
-API: https://developer.chrome.com/extensions/tab
+API: https://developer.chrome.com/extensions/tabs
