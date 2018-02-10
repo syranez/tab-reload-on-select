@@ -8,6 +8,8 @@ The add-on never reloads about-Pages.
 
 The add-on reloads only pages which are unreloaded for an hour.
 
+The add-on never reloads PDFs.
+
 ## Ressources
 
 API: https://developer.chrome.com/extensions/tabs

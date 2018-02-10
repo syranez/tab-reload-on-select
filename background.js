@@ -20,29 +20,36 @@ var extension = (function () {
      * A tab should be reloaded if updated is more than an hour ago.
      * Otherwise it should not be reloaded.
      *
-     * @param string tabId
+     * @param Tab tab
      * @return boolean
      */
-    function shouldReload (tabId) {
+    function shouldReload (tab) {
 
-        if (typeof tabStatusMemoisation[tabId] == "undefined") {
-            console.info("shouldReload: No, tab %s was created before installation of add-on.", tabId);
-            updateTabData(tabId);
+        if (typeof tab.url != "undefined") {
+            if (tab.url.endsWith(".pdf")) {
+                console.info("shouldReload: No, tab %s shows a pdf file.", tab.id);
+                return false;
+            }
+        }
+
+        if (typeof tabStatusMemoisation[tab.id] == "undefined") {
+            console.info("shouldReload: No, tab %s was created before installation of add-on.", tab.id);
+            updateTabData(tab.id);
             return false;
         }
 
-        var lastKnownDate = tabStatusMemoisation[tabId].updated;
+        var lastKnownDate = tabStatusMemoisation[tab.id].updated;
         var currentDate   = Date.now();
 
         var diff      = currentDate - lastKnownDate;
         var threshold = 1000 * 60 * 60; /* 60 Minutes */
 
         if (diff > threshold) {
-            console.info("shouldReload: Yes, tab %s is old: %ds.", tabId, diff / 1000);
+            console.info("shouldReload: Yes, tab %s is old: %ds.", tab.id, diff / 1000);
             return true;
         }
 
-        console.info("shouldReload: No, tab %s is still young: %ds.", tabId, diff / 1000);
+        console.info("shouldReload: No, tab %s is still young: %ds.", tab.id, diff / 1000);
         return false;
     };
 
@@ -100,8 +107,8 @@ browser.tabs.onActivated.addListener(activeInfo => {
             return;
         }
 
-        if (extension.shouldReload(tab.id) === false) {
-            console.info("Do not reload tab %s because it is too young.", tab.id);
+        if (extension.shouldReload(tab) === false) {
+            console.info("Do not reload tab %s.", tab.id);
             return;
         }
 
