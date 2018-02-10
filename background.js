@@ -25,6 +25,13 @@ var extension = (function () {
      */
     function shouldReload (tab) {
 
+        if (typeof tab.url != "undefined"
+            && tab.url.startsWith("about:"))
+        {
+            console.info("shouldReload: No, tab %s shows a about:-page.", tab.id);
+            return false;
+        }
+
         if (typeof tab.url != "undefined") {
             if (tab.url.endsWith(".pdf")) {
                 console.info("shouldReload: No, tab %s shows a pdf file.", tab.id);
@@ -98,12 +105,6 @@ browser.tabs.onActivated.addListener(activeInfo => {
         }
 
         if (tab.status !== "complete") {
-            return;
-        }
-
-        if (typeof tab.url != "undefined"
-            && tab.url.startsWith("about:"))
-        {
             return;
         }
 
