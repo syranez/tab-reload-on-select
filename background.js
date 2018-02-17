@@ -73,6 +73,8 @@ var extension = (function () {
         tabStatusMemoisation[tabId] = {
             "updated": timestamp
         };
+
+        console.info("Tab %s created or created with updated timestamp %d.", tabId, timestamp);
     };
 
     /**
@@ -126,8 +128,6 @@ browser.tabs.onCreated.addListener(tab => {
     }
 
     extension.updateTabData(tab.id);
-
-    console.info("Tab %s created with updated timestamp %d.", tab.id, timestamp);
 });
 
 browser.tabs.onUpdated.addListener(tab => {
@@ -137,8 +137,6 @@ browser.tabs.onUpdated.addListener(tab => {
     }
 
     extension.updateTabData(tab.id);
-
-    console.info("Tab %s updated with updated timestamp %d.", tab.id, timestamp);
 });
 
 browser.tabs.onRemoved.addListener(tab => {
