@@ -5,7 +5,7 @@
     }
   },
   "background": {
-      "scripts": ["background.js"]
+      "scripts": ["extension.js", "background.js"]
   },
   "description": "Reloads a selected tab to get fresh content.",
   "homepage_url": "https://github.com/syranez/tab-reload-on-select",
