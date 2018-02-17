@@ -1,3 +1,5 @@
+var settings = {};
+
 var extension = (function () {
 
     /**
@@ -49,7 +51,7 @@ var extension = (function () {
         var currentDate   = Date.now();
 
         var diff      = currentDate - lastKnownDate;
-        var threshold = 1000 * 60 * 60; /* 60 Minutes */
+        var threshold = 1000 * 60 * settings.reloadTimeout;
 
         if (diff > threshold) {
             console.info("shouldReload: Yes, tab %s is old: %ds.", tab.id, diff / 1000);
@@ -97,6 +99,26 @@ var extension = (function () {
         removeTabData
     };
 })();
+
+async function loadSettings () {
+
+    let storageSettings = await browser.storage.local.get();
+
+    console.info("Load settings: %o.", storageSettings);
+
+    settings.reloadTimeoutValue = storageSettings.reloadTimeoutValue || 60;
+    settings.reloadTimeoutUnit  = storageSettings.reloadTimeoutUnit || "minutes"; 
+
+    if (settings.reloadTimeoutUnit === "hours") {
+        settings.reloadTimeout = settings.reloadTimeoutValue * 60;
+    } else if (settings.reloadTimeoutUnit === "minutes") {
+        settings.reloadTimeout = settings.reloadTimeoutValue;
+    }
+
+    console.info("Loaded settings: %o.", settings);
+};
+
+loadSettings();
 
 browser.tabs.onActivated.addListener(activeInfo => {
 
@@ -147,3 +169,5 @@ browser.tabs.onRemoved.addListener(tab => {
 
     extension.removeTabData(tab.id);
 });
+
+browser.storage.onChanged.addListener(loadSettings)

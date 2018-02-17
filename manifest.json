@@ -11,8 +11,12 @@
   "homepage_url": "https://github.com/syranez/tab-reload-on-select",
   "manifest_version": 2,
   "name": "Tab reload on select",
+  "options_ui": {
+    "page": "options.html"
+  },
   "permissions": [
-    "tabs"
+    "tabs",
+    "storage"
   ],
   "version": "1.1"
 }
