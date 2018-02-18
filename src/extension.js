@@ -74,7 +74,7 @@ function updateTabData (tabId) {
         "updated": timestamp
     };
 
-    console.info("Tab %s created or created with updated timestamp %d.", tabId, timestamp);
+    console.info("Tab %s created or updated with timestamp %s.", tabId, timestamp);
 };
 
 /**
