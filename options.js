@@ -10,7 +10,7 @@ async function restoreOptions () {
 
     let settings = await browser.storage.local.get();
 
-    document.querySelector("#reloadTimeoutUnit").value = settings.reloadTimeoutUnit || "hours";
+    document.querySelector("#reloadTimeoutUnit").value = settings.reloadTimeoutUnit || "minutes";
     document.querySelector("#reloadTimeoutValue").value = settings.reloadTimeoutValue || 60;
 }
 
