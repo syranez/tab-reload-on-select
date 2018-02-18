@@ -97,8 +97,8 @@ async function loadSettings () {
 
     console.info("Load settings: %o.", storageSettings);
 
-    settings.reloadTimeoutValue = storageSettings.reloadTimeoutValue || 60;
-    settings.reloadTimeoutUnit  = storageSettings.reloadTimeoutUnit || "minutes"; 
+    settings.reloadTimeoutValue = parseInt(storageSettings.reloadTimeoutValue, 10) || 60;
+    settings.reloadTimeoutUnit  = storageSettings.reloadTimeoutUnit || "minutes";
 
     if (settings.reloadTimeoutUnit === "hours") {
         settings.reloadTimeout = settings.reloadTimeoutValue * 60;
