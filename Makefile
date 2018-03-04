@@ -1,2 +1,2 @@
-all: manifest.json
-	zip -j -FS dist/tab-reload-on-select.zip src/* manifest.json
+dist/tab-reload-on-select.zip: src/ manifest.json
+	zip -j -FS $@ src/* manifest.json
