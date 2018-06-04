@@ -10,14 +10,25 @@ browser.tabs.onActivated.addListener(activeInfo => {
             return;
         }
 
-        if (extension.shouldReload(tab) === false) {
-            console.info("Do not reload tab %s.", tab.id);
-            return;
-        }
+        extension.shouldReload(tab).then(doReload => {
 
-        console.info("Reload tab %s.", tab.id);
-        extension.updateTabData(tab.id);
-        browser.tabs.reload(tab.id);
+            if (doReload === false) {
+                console.info("Do not reload tab %s.", tab.id);
+                return;
+            }
+
+            console.info("Reload tab %s.", tab.id);
+            extension.updateTabData(tab.id);
+            browser.tabs.reload(tab.id);
+        });
+    });
+});
+
+browser.tabs.onActivated.addListener(activeInfo => {
+
+    browser.tabs.get(activeInfo.tabId, tab => {
+
+        extension.updateIcon(tab);
     });
 });
 
@@ -30,23 +41,29 @@ browser.tabs.onCreated.addListener(tab => {
     extension.updateTabData(tab.id);
 });
 
-browser.tabs.onUpdated.addListener(tab => {
+browser.tabs.onUpdated.addListener(tabId => {
 
-    if (typeof tab.id == "undefined") {
+    extension.updateTabData(tabId);
+});
+
+browser.tabs.onUpdated.addListener(tabId => {
+
+    browser.tabs.get(tabId, tab => {
+
+        extension.updateIcon(tab);
+    });
+});
+
+browser.tabs.onRemoved.addListener(tabId => {
+
+    extension.removeTabData(tabId);
+});
+
+browser.browserAction.onClicked.addListener(tab => {
+
+    if (typeof tab.url == "undefined") {
         return;
     }
 
-    extension.updateTabData(tab.id);
+    extension.toggleDisable(tab);
 });
-
-browser.tabs.onRemoved.addListener(tab => {
-
-    if (typeof tab.id == "undefined") {
-        return;
-    }
-
-    extension.removeTabData(tab.id);
-});
-
-extension.loadSettings();
-browser.storage.onChanged.addListener(loadSettings)

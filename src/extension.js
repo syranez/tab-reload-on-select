@@ -1,5 +1,3 @@
-var settings = {};
-
 /**
  * contains information about the tabs
  *
@@ -23,7 +21,7 @@ var tabStatusMemoisation = {
  * @param Tab tab
  * @return boolean
  */
-function shouldReload (tab) {
+async function shouldReload (tab) {
 
     if (typeof tab.url != "undefined"
         && tab.url.startsWith("about:"))
@@ -37,6 +35,16 @@ function shouldReload (tab) {
             console.info("shouldReload: No, tab %s shows a pdf file.", tab.id);
             return false;
         }
+    }
+
+    const settings = await getSettings();
+
+    const url  = new URL(tab.url);
+    const host = url.hostname;
+
+    if (settings["excludedHosts"].includes(host)) {
+        console.info("shouldReload: No, tab %s has host %s that is excluded.", tab.id, host);
+        return false;
     }
 
     if (typeof tabStatusMemoisation[tab.id] == "undefined") {
@@ -91,27 +99,58 @@ function removeTabData (tabId) {
     }
 };
 
-async function loadSettings () {
+async function updateIcon (tab) {
 
-    let storageSettings = await browser.storage.local.get();
-
-    console.info("Load settings: %o.", storageSettings);
-
-    settings.reloadTimeoutValue = parseInt(storageSettings.reloadTimeoutValue, 10) || 60;
-    settings.reloadTimeoutUnit  = storageSettings.reloadTimeoutUnit || "minutes";
-
-    if (settings.reloadTimeoutUnit === "hours") {
-        settings.reloadTimeout = settings.reloadTimeoutValue * 60;
-    } else if (settings.reloadTimeoutUnit === "minutes") {
-        settings.reloadTimeout = settings.reloadTimeoutValue;
+    if (typeof tab.url == "undefined") {
+        return;
     }
 
-    console.info("Loaded settings: %o.", settings);
+    const settings = await getSettings();
+
+    const url  = new URL(tab.url);
+    const host = url.hostname;
+
+    const excluded = settings["excludedHosts"].includes(host);
+
+    browser.browserAction.setIcon({
+        path: excluded ? {
+            16: "icons/icon_off-plain.svg",
+            32: "icons/icon_off-plain.svg"
+        } : {
+            16: "icons/icon_on-plain.svg",
+            32: "icons/icon_on-plain.svg"
+        },
+        tabId: tab.id
+    });
+
+    browser.browserAction.setTitle({
+        title: (excluded ? "Enable" : "Disable") + ` tab reload on ${host}.`,
+        tabId: tab.id
+    });
+};
+
+async function toggleDisable (tab) {
+
+    const settings = await getSettings();
+
+    const url  = new URL(tab.url);
+    const host = url.hostname;
+
+    if (!settings["excludedHosts"].includes(host)) {
+        settings["excludedHosts"].push(host);
+        saveSettings(settings);
+    } else {
+        settings["excludedHosts"] = settings["excludedHosts"].filter(domain => domain !== host)
+        saveSettings(settings);
+    }
+
+    updateIcon(tab);
 };
 
 var extension = {
     shouldReload,
     updateTabData,
     removeTabData,
-    loadSettings
+    updateIcon,
+    toggleDisable,
 };

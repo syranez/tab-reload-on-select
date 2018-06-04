@@ -1,3 +1,9 @@
+# Version 1.3.0
+
+* Added an icon.
+* Added exclude host feature.
+* Improved Makefile
+
 # Version 1.2
 
 * Added configurable reload timeout
