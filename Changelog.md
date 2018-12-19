@@ -1,3 +1,7 @@
+# Version 1.3.1
+
+* Fixes bug #3 - Extension does not work anymore
+
 # Version 1.3.0
 
 * Added an icon.

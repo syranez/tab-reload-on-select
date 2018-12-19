@@ -39,7 +39,11 @@ browser.tabs.onCreated.addListener(tab => {
     extension.updateTabData(tab.id);
 });
 
-browser.tabs.onUpdated.addListener(tabId => {
+browser.tabs.onUpdated.addListener((tabId, changeInfo) => {
+
+    if (typeof changeInfo.url == "undefined") {
+        return;
+    }
 
     extension.updateTabData(tabId);
 });
