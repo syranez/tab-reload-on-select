@@ -13,11 +13,9 @@ browser.tabs.onActivated.addListener(activeInfo => {
         extension.shouldReload(tab).then(doReload => {
 
             if (doReload === false) {
-                console.info("Do not reload tab %s.", tab.id);
                 return;
             }
 
-            console.info("Reload tab %s.", tab.id);
             extension.updateTabData(tab.id);
             browser.tabs.reload(tab.id);
         });
