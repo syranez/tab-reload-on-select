@@ -17,7 +17,9 @@ browser.tabs.onActivated.addListener(activeInfo => {
             }
 
             extension.updateTabData(tab.id);
-            browser.tabs.reload(tab.id);
+            browser.tabs.reload(tab.id, {
+                bypassCache: true
+            });
         });
     });
 });

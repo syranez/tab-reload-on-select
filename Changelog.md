@@ -1,3 +1,7 @@
+# Version 1.4.0
+
+* Feature request #4 - Reload with fresh content
+
 # Version 1.3.1
 
 * Fixes bug #3 - Extension does not work anymore
