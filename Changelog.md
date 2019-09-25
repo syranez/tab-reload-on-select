@@ -1,6 +1,7 @@
 # Version 1.4.0
 
 * Feature request #4 - Reload with fresh content
+* Maintenance - Minimum Firefox version is 60
 
 # Version 1.3.1
 
