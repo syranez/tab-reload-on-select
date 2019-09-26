@@ -1,3 +1,7 @@
+# Version 1.4.1
+
+* Icon reference error in manifest fixed.
+
 # Version 1.4.0
 
 * Feature request #4 - Reload with fresh content
