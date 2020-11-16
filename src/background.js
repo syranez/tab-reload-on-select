@@ -10,15 +10,17 @@ browser.tabs.onActivated.addListener(activeInfo => {
             return;
         }
 
-        extension.shouldReload(tab).then(doReload => {
+        extension.shouldReload(tab).then(async doReload => {
 
             if (doReload === false) {
                 return;
             }
 
+            const settings = await getSettings();
+
             extension.updateTabData(tab.id);
             browser.tabs.reload(tab.id, {
-                bypassCache: true
+                bypassCache: settings.refreshOnReload
             });
         });
     });

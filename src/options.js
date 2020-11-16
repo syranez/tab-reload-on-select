@@ -1,17 +1,21 @@
-async function saveOptions () {
+function saveOptions () {
 
-    browser.storage.local.set({
+    const settings = {
         "reloadTimeoutUnit":  document.querySelector("#reloadTimeoutUnit").value,
-        "reloadTimeoutValue": document.querySelector("#reloadTimeoutValue").value
-    });
+        "reloadTimeoutValue": document.querySelector("#reloadTimeoutValue").value,
+        "refreshOnReload":    document.querySelector("#refreshOnReload").checked
+    };
+
+    saveSettings(settings);
 }
 
 async function restoreOptions () {
 
-    let settings = await browser.storage.local.get();
+    let settings = await getSettings();
 
-    document.querySelector("#reloadTimeoutUnit").value = settings.reloadTimeoutUnit || "minutes";
-    document.querySelector("#reloadTimeoutValue").value = settings.reloadTimeoutValue || 60;
+    document.querySelector("#reloadTimeoutUnit").value  = settings.reloadTimeoutUnit;
+    document.querySelector("#reloadTimeoutValue").value = settings.reloadTimeoutValue;
+    document.querySelector("#refreshOnReload").checked  = settings.refreshOnReload;
 }
 
 document.addEventListener("DOMContentLoaded", () => {

@@ -3,8 +3,6 @@
  *
  */
 
-/*globals browser:true*/
-
 /**
  * loads and normalize the settings
  *
@@ -18,6 +16,7 @@ async function getSettings () {
 
     settings.reloadTimeoutValue = parseInt(settings.reloadTimeoutValue, 10) || 60;
     settings.reloadTimeoutUnit  = settings.reloadTimeoutUnit || "minutes";
+    settings.refreshOnReload    = settings.refreshOnReload || false;
 
     if (typeof settings["excludedHosts"] == "undefined") {
         settings["excludedHosts"] = [];
@@ -28,6 +27,8 @@ async function getSettings () {
     } else if (settings.reloadTimeoutUnit === "minutes") {
         settings.reloadTimeout = settings.reloadTimeoutValue;
     }
+
+    console.info('getSettings: ' + JSON.stringify(settings));
 
     return settings;
 }
@@ -40,4 +41,6 @@ async function getSettings () {
 function saveSettings (settings) {
 
     browser.storage.local.set(settings);
+
+    console.info('saveSettings: ' + JSON.stringify(settings));
 }

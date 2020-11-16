@@ -4,17 +4,30 @@
     <head>
         <meta charset="utf-8">
         <title>Tab Reload On Select Options</title>
+        <script src="./settings.js"></script>
     </head>
 
     <body>
         <form>
-            <label>Reload timeout
-                <input type="number" id="reloadTimeoutValue" value="60" step="1" min="1" required>
-                <select id="reloadTimeoutUnit">
-                    <option value="minutes" selected="selected">Minutes</option>
-                    <option value="hours">Hours</option>
-                </select>
-            </label>
+            <div>
+                <label>Reload timeout
+                    <input type="number" id="reloadTimeoutValue" value="60" step="1" min="1" required>
+                    <select id="reloadTimeoutUnit">
+                        <option value="minutes" selected="selected">Minutes</option>
+                        <option value="hours">Hours</option>
+                    </select>
+                </label>
+            </div>
+            <div>
+                <div>
+                    <label>Refresh on reload
+                        <input type="checkbox" id="refreshOnReload">
+                    </label>
+                </div>
+                <div>
+                    Beware: If this is activated, current scroll position can not be kept.
+                </div>
+            </div>
         </form>
     </body>
 

@@ -1,3 +1,7 @@
+# next
+
+* Changed behaviour: Reload with fresh content is per default deactivated (Issue https://github.com/syranez/tab-reload-on-select/issues/6)
+
 # Version 1.4.2
 
 * Set strict minimum version back to 56 to support Waterfox (Issue https://github.com/syranez/tab-reload-on-select/issues/5)

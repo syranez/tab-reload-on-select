@@ -21,6 +21,9 @@ Otherwise the icon is a grey x.
 
 The reload timeout value is configurable in the preferences panel on the about:addons-page (default: 60 minutes).
 
+Tabs can optionally be reloaded with fresh content. (default: false)
+Beware: If this is activated, current scroll position can not be kept.
+
 ## Ressources
 
 https://developer.chrome.com/extensions/tabs
