@@ -1,4 +1,4 @@
-# next
+# Version 1.5.0
 
 * Changed behaviour: Reload with fresh content is per default deactivated (Issue https://github.com/syranez/tab-reload-on-select/issues/6)
 
